@@ -1,0 +1,138 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
+
+apply from: 'version.gradle'
+
+group 'com.ravlinko.concordion.extension'
+version VERSION
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url "http://dl.bintray.com/ravlinko/snapshots"
+    }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
+
+apply plugin: 'com.jfrog.bintray'
+
+sourceSets {
+    test {
+        resources.srcDir file('src/test/java')
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+test {
+    group 'Concordion tests'
+    description = "Run Concordion"
+    systemProperty 'concordion.output.dir', "$buildDir/reports/concordion"
+}
+
+task copyXsd(type: Copy) {
+    from('src/main/resources') {
+        include 'index.html'
+        include 'xsd/*.xsd'
+    }
+    into 'build/reports/concordion/'
+}
+
+dependencies {
+    compile 'com.ravlinko.concordion.extension:concordion-foundation-extension:0.0.4'
+    compile 'com.ravlinko.concordion.extension:concordion-codemirror-extension:0.0.1'
+    compile "org.concordion:concordion:2.0.0"
+    compile "com.cedarsoftware:json-io:4.9.7"
+    compile group: 'org.mock-server', name: 'mockserver-netty', version: '3.10.4'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}
+
+def NAME = 'concordion-mockserver-extension'
+def DESC = 'Un-official concordion MockServer extension'
+
+publishing {
+    publications {
+        AnnotationsPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId 'com.ravlinko.concordion.extension'
+            artifactId 'concordion-mockserver-extension'
+            pom.withXml {
+                asNode().appendNode('name', NAME)
+                asNode().appendNode('description', DESC)
+                asNode().appendNode('url', 'https://github.com/PetroRavlinko/concordion-mockserver-extension')
+                asNode().appendNode('inceptionYear', '2017')
+                def licenses = asNode().appendNode('licenses')
+                def license = licenses.appendNode('license')
+                license.appendNode('name', 'Apache-2')
+                license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
+                license.appendNode('distribution', 'snapshots')
+                def developers = asNode().appendNode('developers')
+                def developer = developers.appendNode('developer')
+                developer.appendNode('id', 'PetroRavlinko')
+                developer.appendNode('name', 'Petro Ravlinko')
+                def roles = developer.appendNode('roles')
+                roles.appendNode('role', 'developer')
+                roles.appendNode('role', 'architect')
+            }
+
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key  = System.getenv('BINTRAY_KEY')
+    publications = ['ConcordionPublishing']
+
+    pkg {
+        repo = 'snapshots'
+        name = NAME
+        desc = DESC
+        licenses = ['Apache-2']
+        vcsUrl = 'https://github.com/PetroRavlinko/concordion-mockserver-extension.git'
+        websiteUrl = 'https://github.com/PetroRavlinko/concordion-mockserver-extension'
+        issueTrackerUrl = 'https://github.com/PetroRavlinko/concordion-mockserver-extension/issues'
+        publicDownloadNumbers = true
+
+        githubRepo = 'PetroRavlinko/concordion-mockserver-extension'
+        githubReleaseNotesFile = 'README.md'
+
+        version {
+            name = VERSION
+            vcsTag = GIT_VERSION
+            released = new Date()
+        }
+    }
+}

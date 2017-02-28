@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://petroravlinko.github.io/concordion-mockserver-extension"
+        elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:ms="http://petroravlinko.github.io/concordion-mockserver-extension">
+    <element name="mock">
+        <complexType>
+            <sequence>
+                <element name="request">
+                    <complexType>
+                        <sequence>
+                            <group ref="ms:httpMethods"/>
+                            <element type="string" name="body" minOccurs="0"/>
+                        </sequence>
+                    </complexType>
+                </element>
+                <element name="response">
+                    <complexType>
+                        <sequence>
+                            <element type="string" name="responseBody"/>
+                        </sequence>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+    <group name="httpMethods">
+        <choice>
+            <element name="get" type="string"/>
+            <element name="post" type="string"/>
+            <element name="put" type="string"/>
+            <element name="delete" type="string"/>
+            <element name="patch" type="string"/>
+        </choice>
+    </group>
+</schema>
