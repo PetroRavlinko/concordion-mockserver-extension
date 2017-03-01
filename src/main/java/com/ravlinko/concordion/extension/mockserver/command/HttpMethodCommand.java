@@ -9,13 +9,14 @@ import org.concordion.api.listener.ExecuteEvent;
 import org.concordion.api.listener.ExecuteListener;
 import org.concordion.internal.util.Announcer;
 
-public class HttpMethodCommand extends AbstractCommand {
+public class HttpMethodCommand extends MockServerCommand {
 	private Announcer<ExecuteListener> listeners = Announcer.to(ExecuteListener.class);
 
 	private final String method;
 
 	public HttpMethodCommand(final String method) {
 		this.method = method;
+		setName(method);
 	}
 
 	@Override

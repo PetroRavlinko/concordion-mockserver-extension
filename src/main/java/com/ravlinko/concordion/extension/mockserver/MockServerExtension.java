@@ -2,6 +2,7 @@ package com.ravlinko.concordion.extension.mockserver;
 
 import com.ravlinko.concordion.extension.mockserver.command.HttpMethodCommand;
 import com.ravlinko.concordion.extension.mockserver.command.MockCommand;
+import com.ravlinko.concordion.extension.mockserver.command.MockServerCommand;
 import com.ravlinko.concordion.extension.mockserver.command.RequestBodyCommand;
 import com.ravlinko.concordion.extension.mockserver.command.RequestCommand;
 import com.ravlinko.concordion.extension.mockserver.command.ResponseBodyCommand;
@@ -16,7 +17,10 @@ import org.concordion.api.extension.ConcordionExtender;
 import org.concordion.api.extension.ConcordionExtension;
 import org.concordion.api.listener.DocumentParsingListener;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class MockServerExtension implements ConcordionExtension {
@@ -40,13 +44,19 @@ public class MockServerExtension implements ConcordionExtension {
 
 	@Override
 	public void addTo(ConcordionExtender concordionExtender) {
-		concordionExtender.withCommand(MOCK_SERVER_EXTENSION_NS, "mock", new MockCommand(config));
-		concordionExtender.withCommand(MOCK_SERVER_EXTENSION_NS, "request", new RequestCommand());
-		concordionExtender.withCommand(MOCK_SERVER_EXTENSION_NS, "get", new HttpMethodCommand("GET"));
-		concordionExtender.withCommand(MOCK_SERVER_EXTENSION_NS, "post", new HttpMethodCommand("POST"));
-		concordionExtender.withCommand(MOCK_SERVER_EXTENSION_NS, "body", new RequestBodyCommand());
-		concordionExtender.withCommand(MOCK_SERVER_EXTENSION_NS, "response", new ResponseCommand());
-		concordionExtender.withCommand(MOCK_SERVER_EXTENSION_NS, "responseBody", new ResponseBodyCommand());
+		List<MockServerCommand> commands = new LinkedList<>();
+		commands.addAll(Arrays.asList(
+				new MockCommand(config),
+				new RequestCommand(),
+				new HttpMethodCommand("GET"),
+				new HttpMethodCommand("POST"),
+				new RequestBodyCommand(),
+				new ResponseCommand(),
+				new ResponseBodyCommand()));
+
+		for (MockServerCommand command : commands) {
+			concordionExtender.withCommand(MOCK_SERVER_EXTENSION_NS, command.getName(), command);
+		}
 
 		concordionExtender.withDocumentParsingListener(new DocumentParsingListener() {
 
@@ -74,7 +84,7 @@ public class MockServerExtension implements ConcordionExtension {
 
 				if (MockServerExtension.MOCK_SERVER_EXTENSION_NS.equals(elem.getNamespaceURI())) {
 					Attribute attr = new Attribute(elem.getLocalName(), "");
-					attr.setNamespace("r", MOCK_SERVER_EXTENSION_NS);
+					attr.setNamespace("ms", MOCK_SERVER_EXTENSION_NS);
 					elem.addAttribute(attr);
 					elem.setNamespacePrefix("");
 					elem.setNamespaceURI(null);

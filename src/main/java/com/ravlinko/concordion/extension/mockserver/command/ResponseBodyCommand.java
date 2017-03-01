@@ -10,8 +10,12 @@ import org.concordion.api.ResultRecorder;
 
 import static org.mockserver.model.StringBody.exact;
 
-public class ResponseBodyCommand extends AbstractCommand {
+public class ResponseBodyCommand extends MockServerCommand {
 	private static final String MOCK_RESPONSE_BODY_VARIABLE = "#responseBody";
+
+	public ResponseBodyCommand() {
+		setName("responseBody");
+	}
 
 	@Override
 	public void setUp(CommandCall commandCall, Evaluator evaluator, ResultRecorder resultRecorder) {

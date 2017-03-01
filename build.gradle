@@ -82,7 +82,7 @@ def DESC = 'Un-official concordion MockServer extension'
 
 publishing {
     publications {
-        AnnotationsPublication(MavenPublication) {
+        ConcordionPublishing(MavenPublication) {
             from components.java
             artifact sourcesJar
             artifact javadocJar

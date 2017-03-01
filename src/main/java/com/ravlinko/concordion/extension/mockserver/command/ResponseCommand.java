@@ -15,11 +15,15 @@ import org.mockserver.model.HttpResponse;
 
 import static org.mockserver.model.HttpResponse.response;
 
-public class ResponseCommand extends AbstractCommand {
+public class ResponseCommand extends MockServerCommand {
 	private static final String MOCK_RESPONSE_VARIABLE = "#response";
 
 	private Announcer<ExecuteListener> listeners = Announcer.to(ExecuteListener.class);
 	private HttpResponse httpResponse;
+
+	public ResponseCommand() {
+		setName("response");
+	}
 
 	@Override
 	public void setUp(final CommandCall commandCall, final Evaluator evaluator, final ResultRecorder resultRecorder) {

@@ -8,10 +8,12 @@ jdk:
 - oraclejdk8
 before_script:
 - chmod +x gradlew
+- chmod +x release.sh
 script:
 - ./gradlew javadoc
 - ./gradlew check
 - ./gradlew jacocoTestReport
+- ./gradlew build
 after_success:
 - ./release.sh
 env:

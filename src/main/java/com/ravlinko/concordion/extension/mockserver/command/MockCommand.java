@@ -13,12 +13,13 @@ import org.concordion.api.listener.ExecuteEvent;
 import org.concordion.api.listener.ExecuteListener;
 import org.concordion.internal.util.Announcer;
 
-public class MockCommand extends AbstractCommand {
+public class MockCommand extends MockServerCommand {
 	private Announcer<ExecuteListener> listeners = Announcer.to(ExecuteListener.class);
 
 	private Config config;
 
 	public MockCommand(final Config config) {
+		setName("mock");
 		this.config = config;
 	}
 
