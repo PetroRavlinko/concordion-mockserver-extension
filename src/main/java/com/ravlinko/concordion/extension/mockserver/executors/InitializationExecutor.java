@@ -1,8 +1,6 @@
 package com.ravlinko.concordion.extension.mockserver.executors;
 
 
-import com.ravlinko.concordion.extension.mockserver.MockServerExtension.Config;
-
 import org.concordion.api.Evaluator;
 import org.mockserver.client.server.MockServerClient;
 import org.mockserver.model.HttpRequest;
@@ -12,15 +10,13 @@ public class InitializationExecutor {
 	private static final String MOCK_EXECUTOR_VARIABLE = "#mock";
 
 	private MockServerClient mockServerClient;
-	private Config config;
 
-	private InitializationExecutor(final Config config) {
-		this.config = config;
-		mockServerClient = new MockServerClient(this.config.getHost(), this.config.getPort());
+	private InitializationExecutor(final String host, final int port) {
+		mockServerClient = new MockServerClient(host, port);
 	}
 
-	public static InitializationExecutor newExecutor(final Evaluator evaluator, final Config config) {
-		InitializationExecutor initializer = new InitializationExecutor(config);
+	public static InitializationExecutor newExecutor(final Evaluator evaluator, final String host, final int port) {
+		InitializationExecutor initializer = new InitializationExecutor(host, port);
 		evaluator.setVariable(MOCK_EXECUTOR_VARIABLE, initializer);
 		return initializer;
 	}

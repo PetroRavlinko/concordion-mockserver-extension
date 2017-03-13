@@ -1,21 +1,24 @@
-package com.ravlinko.concordion.extension.mockserver.command;
+package com.ravlinko.concordion.extension.mockserver.tag;
 
 
 import com.cedarsoftware.util.io.JsonWriter;
+import com.ravlinko.concordion.extension.mockserver.utils.JsonPrettyPrinter;
 
-import org.concordion.api.AbstractCommand;
 import org.concordion.api.CommandCall;
 import org.concordion.api.Element;
 import org.concordion.api.Evaluator;
 import org.concordion.api.ResultRecorder;
+import org.springframework.stereotype.Component;
 
 import static org.mockserver.model.StringBody.exact;
 
-public class RequestBodyCommand extends MockServerCommand {
+@Component
+public class RequestBodyTag extends MockServerTag {
 	private static final String MOCK_REQUEST_BODY_VARIABLE = "#requestBody";
 
-	public RequestBodyCommand() {
+	public RequestBodyTag() {
 		setName("body");
+		setHttpName("pre");
 	}
 
 	@Override
@@ -23,11 +26,11 @@ public class RequestBodyCommand extends MockServerCommand {
 		Element element = commandCall.getElement();
 		element.addStyleClass("json");
 
-		String body = element.getText();
+		String body = new JsonPrettyPrinter().prettyPrint(element.getText());
 		element.appendText(body);
 		evaluator.setVariable(MOCK_REQUEST_BODY_VARIABLE, body);
 
-		RequestCommand.requestFromEvaluator(evaluator).withBody(exact(body));
+		RequestTag.requestFromEvaluator(evaluator).withBody(exact(body));
 	}
 
 	@Override

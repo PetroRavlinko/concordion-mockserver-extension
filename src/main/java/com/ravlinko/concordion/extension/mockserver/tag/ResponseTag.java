@@ -1,28 +1,25 @@
-package com.ravlinko.concordion.extension.mockserver.command;
+package com.ravlinko.concordion.extension.mockserver.tag;
 
 import com.ravlinko.concordion.extension.mockserver.executors.InitializationExecutor;
 
-import org.concordion.api.AbstractCommand;
 import org.concordion.api.CommandCall;
 import org.concordion.api.CommandCallList;
-import org.concordion.api.Element;
 import org.concordion.api.Evaluator;
 import org.concordion.api.ResultRecorder;
-import org.concordion.api.listener.ExecuteEvent;
-import org.concordion.api.listener.ExecuteListener;
-import org.concordion.internal.util.Announcer;
 import org.mockserver.model.HttpResponse;
+import org.springframework.stereotype.Component;
 
 import static org.mockserver.model.HttpResponse.response;
 
-public class ResponseCommand extends MockServerCommand {
+@Component
+public class ResponseTag extends MockServerTag {
 	private static final String MOCK_RESPONSE_VARIABLE = "#response";
 
-	private Announcer<ExecuteListener> listeners = Announcer.to(ExecuteListener.class);
 	private HttpResponse httpResponse;
 
-	public ResponseCommand() {
+	public ResponseTag() {
 		setName("response");
+		setHttpName("div");
 	}
 
 	@Override
@@ -37,12 +34,7 @@ public class ResponseCommand extends MockServerCommand {
 		InitializationExecutor initializationExecutor = InitializationExecutor.fromEvaluator(evaluator);
 		initializationExecutor.httpResponse(httpResponse);
 
-		announceExecuteCompleted(commandCall.getElement());
 		childCommands.verify(evaluator, resultRecorder);
-	}
-
-	private void announceExecuteCompleted(Element element) {
-		listeners.announce().executeCompleted(new ExecuteEvent(element));
 	}
 
 	public static HttpResponse responseFromEvaluator(Evaluator evaluator) {
