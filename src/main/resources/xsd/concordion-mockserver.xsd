@@ -18,6 +18,15 @@
                     <complexType>
                         <sequence>
                             <element type="string" name="responseBody"/>
+                            <element name="header">
+                                <complexType>
+                                    <simpleContent>
+                                        <extension base="string">
+                                            <attribute name="name" use="required" type="string" />
+                                        </extension>
+                                    </simpleContent>
+                                </complexType>
+                            </element>
                         </sequence>
                     </complexType>
                 </element>
