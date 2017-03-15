@@ -5,6 +5,7 @@
     <element name="mock">
         <complexType>
             <sequence>
+                <element name="reset" />
                 <element name="request">
                     <complexType>
                         <sequence>

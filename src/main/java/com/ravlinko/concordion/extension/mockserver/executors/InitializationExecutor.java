@@ -32,7 +32,10 @@ public class InitializationExecutor {
 		mockServerClient
 				.when(httpRequest)
 				.respond(httpResponse);
+	}
 
+	public void reset() {
+		mockServerClient.reset();
 	}
 
 	public InitializationExecutor httpRequest(final HttpRequest httpRequest) {

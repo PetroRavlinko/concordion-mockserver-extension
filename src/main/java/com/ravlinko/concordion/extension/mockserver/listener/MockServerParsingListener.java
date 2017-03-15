@@ -34,12 +34,17 @@ public class MockServerParsingListener implements DocumentParsingListener {
 		}
 
 		if (mockserverExtensionNs.equals(elem.getNamespaceURI())) {
-			Attribute attr = new Attribute(elem.getLocalName(), "");
-			attr.setNamespace("ms", mockserverExtensionNs);
-			elem.addAttribute(attr);
-			elem.setNamespacePrefix("");
-			elem.setNamespaceURI(null);
-			elem.setLocalName(translateTag(elem.getLocalName()));
+			String localName = translateTag(elem.getLocalName());
+			if (localName.isEmpty()) {
+				elem.getParent().removeChild(elem);
+			} else {
+				Attribute attr = new Attribute(elem.getLocalName(), "");
+				attr.setNamespace("ms", mockserverExtensionNs);
+				elem.addAttribute(attr);
+				elem.setNamespacePrefix("");
+				elem.setNamespaceURI(null);
+				elem.setLocalName(localName);
+			}
 		}
 	}
 
