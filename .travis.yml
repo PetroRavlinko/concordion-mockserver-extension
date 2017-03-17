@@ -4,6 +4,11 @@ addons:
   apt:
     packages:
     - oracle-java8-installer
+  sonarqube:
+    token:
+    - secure: dTKeGw/SpOZnZ5IT1p6ahX5PsX1WkppuC7WrhfEvAf8Wrii9SXlAeOgF6b1tDrBRGgVNZrjmk5RO1/sM5anfgKei4C2GP74LkU+w/b2R8EsnW1orJtbMwB6yvKj6dLjkpFpi/FAKVFnFIA3FE0znhnm3CVh8meAU23aqFLtUZEmSTqA+qsdxc0MGWt9fz6zT6wpTVHmwpx/ws15ptoZsFiywWdhD5D0Ws8p3j4BDAsR1FYckfLKOZl2HjlaMha73wqwCJ+C01XpynSW40dIGlc/3ghvahzJgJ3o0s6krTL+pEGD+NMHeYfxdBiHxQebjBHO7jbwBHIbRILg3a8EhCkni2WgXHRz6cLTJ6zzUYsfeGYLvQi7UKkYgZbWhYULip0+jNyQgqVaSz2UybfuXgSUpIkQ5nIVk56f5VU90v6BmKrIFeXi95MjyDGUdS+5bHRGK+2nHVys65HnN0z/so0MYVA36gFH2BE2UgfQBM6/g8s7J9suDDDVf/bPbTrairxkAO10DBzspyKVVbNzyQA4dW4AdVKgWplU4OI0qQORmclEzyfhm6B8vMXz4naGLHylujPGzyOLylpiQJEC9APsq1ox4zuHZ5xO5yLG8Bs7YcvZgJVq3ixqVyttZOBKgQwQQGrsQG9KkIeHXHMF15UQ6L4lKP3wmaLRZFgkyZxE=
+    github_token:
+    - secure: lkw2j6vbs6KcnLZxYculwDxEZOh4QOjChTCsKHmQA/vTMt5jZvJjw8KJbH6/rVHWsSV1kE2nRAD62GrEtcYNvx3otztc7mcXWjzbbNh5l99uhlglx6DjkaGaz5DOEeLpAvtH9RkfwlPoo9Wv7ou8Nnczo8meJP0k85NRFGeQzPFQUrTS1srHHNxY9Bw7syjUBo7HFOZwi7JQIpGfCO3lWEYEcXgZYLDi4vYsMGvPclxO8jeoshTh+XNwWtIran6X5v5LQ0I7+MILZ62M8omdqUU4E0WQmmj67nN5kV5nOvsFt63mLtCaW8sB83O5GeADKJ9xPL+eBA04t3YRryHWBkhjOU7BCxnD3N8218yWKII4by2DUJZNILHXBVfoXCCmWORT9cuUPYU6dNK3tSqqw2qvULS5UX8Ikn4XeFgWy8vVXEDNuSoPFo/z1Aq6yZ4eYgwC2zqkJOIk5kFl44TJ9PHsk2gk0/65GVXvevCcs/cPwi9CGCSogL2i4IPDUn+MmTlvO1F/FvC7yi1uhQ4nEk3EBW3nwNQZWa1ekq2oPFkXbjg0RCvrcCfDpy29CPxPfWJVoChC1FZqiXnWLXb2/ibV+MpcOsYKCM2K+L8e7iIFYrAfv3cQDWDJ/44L3SElURhtiOOtgInPHh8xUdh5CZ6Y9MEjK53M++u7mSNujDo=
 jdk:
 - oraclejdk8
 before_script:
@@ -14,6 +19,7 @@ script:
 - ./gradlew check
 - ./gradlew jacocoTestReport
 - ./gradlew build
+- sonar-scanner
 after_success:
 - ./release.sh
 env:
