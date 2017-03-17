@@ -5,7 +5,7 @@
     <element name="mock">
         <complexType>
             <sequence>
-                <element name="reset" />
+                <element name="reset"/>
                 <element name="request">
                     <complexType>
                         <sequence>
@@ -17,12 +17,13 @@
                 <element name="response">
                     <complexType>
                         <sequence>
+                            <element type="string" name="statusCode"/>
                             <element type="string" name="responseBody"/>
                             <element name="header">
                                 <complexType>
                                     <simpleContent>
                                         <extension base="string">
-                                            <attribute name="name" use="required" type="string" />
+                                            <attribute name="name" use="required" type="string"/>
                                         </extension>
                                     </simpleContent>
                                 </complexType>

@@ -33,8 +33,23 @@
                     </div>
                 </ms:request>
                 <ms:response>
-                    <ms:header name="Content-Type">application/json</ms:header>
-                    <ms:header name="Age">33</ms:header>
+                    <ud>
+                        <dt>Status code</dt>
+                        <dd><span class="label success"><ms:statusCode>200</ms:statusCode></span>
+                        </dd>
+                        <dt>Headers</dt>
+                        <dd>
+                            <ul>
+                                <li>
+                                    <ms:header name="Content-Type">application/json</ms:header>
+                                </li>
+                                <li>
+                                    <ms:header name="Age">33</ms:header>
+                                </li>
+                            </ul>
+                        </dd>
+                    </ud>
+
                     <div class="callout">
                         <ms:responseBody class="json">{"status": "Success", "total": "21.1"}
                         </ms:responseBody>
