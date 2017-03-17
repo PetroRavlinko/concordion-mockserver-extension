@@ -9,6 +9,15 @@
                 <element name="request">
                     <complexType>
                         <sequence>
+                            <element name="queryParameter">
+                                <complexType>
+                                    <simpleContent>
+                                        <extension base="string">
+                                            <attribute name="name" use="required" type="string"/>
+                                        </extension>
+                                    </simpleContent>
+                                </complexType>
+                            </element>
                             <group ref="ms:httpMethods"/>
                             <element type="string" name="body" minOccurs="0"/>
                         </sequence>
