@@ -2,7 +2,6 @@ package com.ravlinko.concordion.extension.mockserver.listener;
 
 import com.ravlinko.concordion.extension.mockserver.tag.MockServerTag;
 
-import nu.xom.Attribute;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class MockServerParsingListener implements DocumentParsingListener {
@@ -23,39 +23,28 @@ public class MockServerParsingListener implements DocumentParsingListener {
 
 	@Override
 	public void beforeParsing(Document document) {
-		visit(document.getRootElement());
+		visitBeforeParsing(document.getRootElement());
 	}
 
-	private void visit(Element elem) {
+	private void visitBeforeParsing(Element elem) {
 		Elements children = elem.getChildElements();
 
 		for (int i = 0; i < children.size(); i++) {
-			visit(children.get(i));
+			visitBeforeParsing(children.get(i));
 		}
 
 		if (mockserverExtensionNs.equals(elem.getNamespaceURI())) {
-			String localName = translateTag(elem.getLocalName());
-			if (localName.isEmpty()) {
-				elem.getParent().removeChild(elem);
-			} else {
-				Attribute attr = new Attribute(elem.getLocalName(), "");
-				attr.setNamespace("ms", mockserverExtensionNs);
-				elem.addAttribute(attr);
-				elem.setNamespacePrefix("");
-				elem.setNamespaceURI(null);
-				elem.setLocalName(localName);
-			}
+			beforeParsingTag(elem.getLocalName()).ifPresent(mst -> mst.beforeParsing(elem));
 		}
 	}
 
-	private String translateTag(final String localName) {
+	private Optional<MockServerTag> beforeParsingTag(final String localName) {
 		for (MockServerTag mst : commands) {
 			if (localName.equalsIgnoreCase(mst.getName())) {
-				return mst.getHttpName();
+				return Optional.ofNullable(mst);
 			}
 		}
-		return localName;
+		return Optional.empty();
 	}
-
 
 }

@@ -13,7 +13,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.mockserver.model.Header;
 import org.mockserver.model.HttpResponse;
 
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +40,7 @@ public class HeaderTagTest {
 	private HeaderTag unit = new HeaderTag();
 
 	@Test
-	public void shouldSetHeaderToResponse() throws Exception {
+	public void shouldSetHeaderToResponse() {
 		Attribute attribute = new Attribute(NAME, CONTENT_TYPE);
 		xElement.addAttribute(attribute);
 		xElement.appendChild(TEXT_JSON);

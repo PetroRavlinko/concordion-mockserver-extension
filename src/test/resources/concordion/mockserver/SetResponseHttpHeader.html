@@ -1,0 +1,39 @@
+<html xmlns:c="http://www.concordion.org/2007/concordion"
+      xmlns:ms="http://petroravlinko.github.io/concordion-mockserver-extension"
+      xmlns:r="http://pragmatists.github.io/concordion-rest-extension"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://pragmatists.github.io/concordion-rest-extension http://pragmatists.github.io/concordion-rest-extension/xsd/concordion-rest.xsd">
+<body>
+<h1>Set response http headers</h1>
+<p>
+    Description
+</p>
+<div c:example="mock_content_response_header">
+    <h3>Mock Content-Type Header</h3>
+    <ms:mock reset="true">
+        <ms:request>
+            <ms:post>/cart</ms:post>
+        </ms:request>
+        <ms:response>
+            <ms:header name="Bearer">hashcode</ms:header>
+        </ms:response>
+    </ms:mock>
+    <div class="xml">
+        &lt;ms:mock reset=true&gt;
+            &lt;ms:request&gt;
+                &lt;ms:post&gt;/cart&lt;/ms:post&gt;
+            &lt;/ms:request&gt;
+            &lt;ms:response&gt;
+                &lt;ms:header name="Bearer"&gt;hashcode&lt;/ms:header&gt;
+            &lt;/ms:response&gt;
+        &lt;/ms:mock&gt;
+    </div>
+    <r:request>
+        When I send
+        <r:post>/cart</r:post>
+        Then I should receive response with header
+        <r:header name="Bearer">hashcode</r:header>
+    </r:request>
+</div>
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.ravlinko.concordion.extension.mockserver.tag;
 import com.cedarsoftware.util.io.JsonWriter;
 import com.ravlinko.concordion.extension.mockserver.utils.XmlPrettyPrinter;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.concordion.api.CommandCall;
 import org.concordion.api.Element;
 import org.concordion.api.Evaluator;
@@ -17,7 +18,6 @@ public class ResponseBodyTag extends MockServerTag {
 
 	public ResponseBodyTag() {
 		setName("responseBody");
-		setHttpName("pre");
 	}
 
 	@Override
@@ -42,8 +42,12 @@ public class ResponseBodyTag extends MockServerTag {
 	@Override
 	public void verify(CommandCall commandCall, Evaluator evaluator, ResultRecorder resultRecorder) {
 		String body = (String) evaluator.getVariable(MOCK_RESPONSE_BODY_VARIABLE);
+		if (((String) evaluator.getVariable(MOCK_RESPONSE_BODY_VARIABLE)).equalsIgnoreCase("xml")) {
+			body = StringEscapeUtils.escapeXml(body);
+		}
 		Element element = commandCall.getElement();
 		element.moveChildrenTo(new Element("span"));
 		element.appendText(body);
+		super.verify(commandCall, evaluator, resultRecorder);
 	}
 }

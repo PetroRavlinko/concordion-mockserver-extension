@@ -15,12 +15,12 @@ public class MockServerConfig {
 
 	@Bean
 	public MockServerTag getHttpMethodCommand() {
-		return new HttpMethodTag("GET");
+		return new HttpMethodTag("get");
 	}
 
 	@Bean
 	public MockServerTag postHttpMethodCommand() {
-		return new HttpMethodTag("POST");
+		return new HttpMethodTag("post");
 	}
 
 }

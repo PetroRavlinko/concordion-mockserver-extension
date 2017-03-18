@@ -1,6 +1,6 @@
 package com.ravlinko.concordion.extension.mockserver.tag;
 
-import com.ravlinko.concordion.extension.mockserver.executors.InitializationExecutor;
+import com.ravlinko.concordion.extension.mockserver.executors.MockExecutor;
 
 import org.concordion.api.CommandCall;
 import org.concordion.api.CommandCallList;
@@ -19,7 +19,6 @@ public class ResponseTag extends MockServerTag {
 
 	public ResponseTag() {
 		setName("response");
-		setHttpName("div");
 	}
 
 	@Override
@@ -31,8 +30,8 @@ public class ResponseTag extends MockServerTag {
 		childCommands.setUp(evaluator, resultRecorder);
 		childCommands.execute(evaluator, resultRecorder);
 
-		InitializationExecutor initializationExecutor = InitializationExecutor.fromEvaluator(evaluator);
-		initializationExecutor.httpResponse(httpResponse);
+		MockExecutor mockExecutor = MockExecutor.fromEvaluator(evaluator);
+		mockExecutor.httpResponse(httpResponse);
 
 		childCommands.verify(evaluator, resultRecorder);
 	}

@@ -1,9 +1,10 @@
 package com.ravlinko.concordion.extension.mockserver.tag;
 
-import com.ravlinko.concordion.extension.mockserver.executors.InitializationExecutor;
+import com.ravlinko.concordion.extension.mockserver.executors.MockExecutor;
 
 import org.concordion.api.CommandCall;
 import org.concordion.api.CommandCallList;
+import org.concordion.api.Element;
 import org.concordion.api.Evaluator;
 import org.concordion.api.ResultRecorder;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,18 +19,20 @@ public class MockTag extends MockServerTag {
 
 	public MockTag() {
 		setName("mock");
-		setHttpName("div");
 	}
 
 	@Override
 	public void execute(final CommandCall commandCall, final Evaluator evaluator, final ResultRecorder resultRecorder) {
-		InitializationExecutor initializer = InitializationExecutor.newExecutor(evaluator, host, port);
+		MockExecutor initializer = MockExecutor.newExecutor(evaluator, host, port);
 
 		CommandCallList childCommands = commandCall.getChildren();
 		childCommands.setUp(evaluator, resultRecorder);
 		childCommands.execute(evaluator, resultRecorder);
 
-		initializer.execute();
+		Element element = commandCall.getElement();
+		boolean reset = Boolean.parseBoolean(element.getAttributeValue("reset"));
+
+		initializer.execute(reset);
 
 		childCommands.verify(evaluator, resultRecorder);
 	}
