@@ -83,7 +83,6 @@ jacocoTestReport {
     }
 }
 
-
 def NAME = 'concordion-mockserver-extension'
 def DESC = 'Un-official concordion MockServer extension'
 

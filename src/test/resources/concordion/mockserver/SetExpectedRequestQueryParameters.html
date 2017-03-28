@@ -5,15 +5,16 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://pragmatists.github.io/concordion-rest-extension http://pragmatists.github.io/concordion-rest-extension/xsd/concordion-rest.xsd">
 <body>
-<h1>Set response http status code</h1>
+<h1>SetExpectedRequestQueryParameters</h1>
 <p>
     Description
 </p>
-<div c:example="mock_successful_status">
-    <h3>Mock Successful status</h3>
+<div c:example="mock_post_request_method_and_url">
+    <h3>Mock post request to cart url</h3>
     <ms:mock reset="true">
         <ms:request>
-            <ms:post>/cart</ms:post>
+            <ms:get>/cartPage</ms:get>
+            <ms:queryParameter name="sku">42</ms:queryParameter>
         </ms:request>
         <ms:response>
             <ms:statusCode class="code">201</ms:statusCode>
@@ -22,7 +23,8 @@
     <div class="xml">
         &lt;ms:mock&gt;
             &lt;ms:request&gt;
-                &lt;ms:post&gt;/cart&lt;/ms:post&gt;
+                &lt;ms:get&gt;/cartPage&lt;/ms:get&gt;
+                &lt;ms:queryParameter name="sku"&gt;42&lt;/ms:queryParameter&gt;
             &lt;/ms:request&gt;
             &lt;ms:response&gt;
                 &lt;ms:statusCode class="code"&gt;201&lt;/ms:statusCode&gt;
@@ -31,7 +33,7 @@
     </div>
     <r:request>
         When I send
-        <r:post>/cart</r:post>
+        <r:get>/cartPage?sku=42</r:get>
         Then I should receive
         <r:status>HTTP/1.1 201 Created</r:status>
     </r:request>

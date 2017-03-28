@@ -16,14 +16,14 @@ jdk:
 before_script:
 - chmod +x gradlew
 - chmod +x release.sh
+- chmod +x publish.sh
 - docker run -d -p 1080:1080 jamesdbloom/mockserver
 script:
+- ./gradlew build
 - ./gradlew javadoc
-- ./gradlew check
-- ./gradlew test
 - ./gradlew jacocoTestReport
 - sonar-scanner
-- ./gradlew build
+- ./publish.sh
 after_success:
 - ./release.sh
 env:

@@ -5,12 +5,12 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://pragmatists.github.io/concordion-rest-extension http://pragmatists.github.io/concordion-rest-extension/xsd/concordion-rest.xsd">
 <body>
-<h1>Set response http status code</h1>
+<h1>Set expected request method and url path</h1>
 <p>
     Description
 </p>
-<div c:example="mock_successful_status">
-    <h3>Mock Successful status</h3>
+<div c:example="mock_post_request_method_and_url">
+    <h3>Mock post request to cart url</h3>
     <ms:mock reset="true">
         <ms:request>
             <ms:post>/cart</ms:post>

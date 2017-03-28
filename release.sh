@@ -1,7 +1,6 @@
 #!/bin/bash
 
 RELEASECMD='./gradlew bintrayUpload'
-PUBLISHDOCS='./gradlew publishGhPages'
 
 if [[ ! -z "$TRAVIS_TAG" ]]
 then
@@ -10,12 +9,6 @@ then
 
   echo "$RELEASECMD"
   eval "$RELEASECMD"
-
-  echo "Publishing pages for a git tag ($TRAVIS_TAG)."
-  echo
-
-  echo "$PUBLISHDOCS"
-  eval "$PUBLISHDOCS"
 
 else
   echo "Not performing release since this build is not for a git tag."

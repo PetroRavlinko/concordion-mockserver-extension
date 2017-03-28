@@ -37,10 +37,6 @@ public class MockExecutor {
 				.respond(httpResponse);
 	}
 
-	public void reset() {
-		mockServerClient.reset();
-	}
-
 	public MockExecutor httpRequest(final HttpRequest httpRequest) {
 		this.httpRequest = httpRequest;
 		return this;
