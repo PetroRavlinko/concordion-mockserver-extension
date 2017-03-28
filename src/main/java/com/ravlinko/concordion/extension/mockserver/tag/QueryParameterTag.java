@@ -12,7 +12,6 @@ public class QueryParameterTag extends MockServerTag {
 
 	public QueryParameterTag() {
 		setName("queryParameter");
-		setHttpName("code");
 	}
 
 	@Override

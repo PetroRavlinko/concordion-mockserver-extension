@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 public class HeaderTag extends MockServerTag {
 	public HeaderTag() {
 		setName("header");
-		setHttpName("code");
 	}
 
 	@Override

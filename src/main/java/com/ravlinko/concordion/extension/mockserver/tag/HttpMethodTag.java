@@ -11,7 +11,6 @@ public class HttpMethodTag extends MockServerTag {
 	public HttpMethodTag(final String method) {
 		this.method = method;
 		setName(method);
-		setHttpName("code");
 	}
 
 	@Override
@@ -20,7 +19,7 @@ public class HttpMethodTag extends MockServerTag {
 		element.addStyleClass(method.toLowerCase());
 		String path = element.getText();
 		RequestTag.requestFromEvaluator(evaluator)
-				.withMethod(method)
+				.withMethod(method.toUpperCase())
 				.withPath(path);
 	}
 

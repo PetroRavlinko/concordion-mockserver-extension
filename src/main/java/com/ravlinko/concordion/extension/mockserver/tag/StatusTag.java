@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StatusTag extends MockServerTag {
+
 	public StatusTag() {
 		setName("statusCode");
-		setHttpName("code");
 	}
 
 	@Override

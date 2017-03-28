@@ -1,6 +1,6 @@
 package com.ravlinko.concordion.extension.mockserver.tag;
 
-import com.ravlinko.concordion.extension.mockserver.executors.InitializationExecutor;
+import com.ravlinko.concordion.extension.mockserver.executors.MockExecutor;
 
 import org.concordion.api.CommandCall;
 import org.concordion.api.CommandCallList;
@@ -19,7 +19,6 @@ public class RequestTag extends MockServerTag {
 
 	public RequestTag() {
 		setName("request");
-		setHttpName("div");
 	}
 
 	@Override
@@ -31,8 +30,8 @@ public class RequestTag extends MockServerTag {
 		childCommands.setUp(evaluator, resultRecorder);
 		childCommands.execute(evaluator, resultRecorder);
 
-		InitializationExecutor initializationExecutor = InitializationExecutor.fromEvaluator(evaluator);
-		initializationExecutor.httpRequest(httpRequest);
+		MockExecutor mockExecutor = MockExecutor.fromEvaluator(evaluator);
+		mockExecutor.httpRequest(httpRequest);
 
 		childCommands.verify(evaluator, resultRecorder);
 	}

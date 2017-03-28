@@ -5,7 +5,7 @@
     <element name="mock">
         <complexType>
             <sequence>
-                <element name="reset"/>
+                <element type="boolean" name="reset" default="true"/>
                 <element name="request">
                     <complexType>
                         <sequence>
@@ -27,7 +27,15 @@
                     <complexType>
                         <sequence>
                             <element type="string" name="statusCode"/>
-                            <element type="string" name="responseBody"/>
+                            <element type="string" name="responseBody">
+                                <complexType>
+                                    <simpleContent>
+                                        <extension base="string">
+                                            <attribute name="filePath" use="optional" type="string"/>
+                                        </extension>
+                                    </simpleContent>
+                                </complexType>
+                            </element>
                             <element name="header">
                                 <complexType>
                                     <simpleContent>
@@ -41,6 +49,7 @@
                     </complexType>
                 </element>
             </sequence>
+            <attribute name="reset" type="boolean" default="false"/>
         </complexType>
     </element>
     <group name="httpMethods">

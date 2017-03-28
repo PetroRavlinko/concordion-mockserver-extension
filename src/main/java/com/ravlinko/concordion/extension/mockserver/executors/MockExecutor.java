@@ -6,44 +6,43 @@ import org.mockserver.client.server.MockServerClient;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
-public class InitializationExecutor {
+public class MockExecutor {
 	private static final String MOCK_EXECUTOR_VARIABLE = "#mock";
 
 	private MockServerClient mockServerClient;
 
-	private InitializationExecutor(final String host, final int port) {
+	private MockExecutor(final String host, final int port) {
 		mockServerClient = new MockServerClient(host, port);
 	}
 
-	public static InitializationExecutor newExecutor(final Evaluator evaluator, final String host, final int port) {
-		InitializationExecutor initializer = new InitializationExecutor(host, port);
+	public static MockExecutor newExecutor(final Evaluator evaluator, final String host, final int port) {
+		MockExecutor initializer = new MockExecutor(host, port);
 		evaluator.setVariable(MOCK_EXECUTOR_VARIABLE, initializer);
 		return initializer;
 	}
 
-	public static InitializationExecutor fromEvaluator(Evaluator evaluator) {
-		return (InitializationExecutor) evaluator.getVariable(MOCK_EXECUTOR_VARIABLE);
+	public static MockExecutor fromEvaluator(Evaluator evaluator) {
+		return (MockExecutor) evaluator.getVariable(MOCK_EXECUTOR_VARIABLE);
 	}
 
 	private HttpRequest httpRequest;
 	private HttpResponse httpResponse;
 
-	public void execute() {
+	public void execute(final boolean reset) {
+		if (reset) {
+			mockServerClient.reset();
+		}
 		mockServerClient
 				.when(httpRequest)
 				.respond(httpResponse);
 	}
 
-	public void reset() {
-		mockServerClient.reset();
-	}
-
-	public InitializationExecutor httpRequest(final HttpRequest httpRequest) {
+	public MockExecutor httpRequest(final HttpRequest httpRequest) {
 		this.httpRequest = httpRequest;
 		return this;
 	}
 
-	public InitializationExecutor httpResponse(final HttpResponse httpResponse) {
+	public MockExecutor httpResponse(final HttpResponse httpResponse) {
 		this.httpResponse = httpResponse;
 		return this;
 	}

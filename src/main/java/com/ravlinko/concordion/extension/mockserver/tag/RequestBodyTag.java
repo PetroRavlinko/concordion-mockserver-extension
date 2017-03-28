@@ -18,7 +18,6 @@ public class RequestBodyTag extends MockServerTag {
 
 	public RequestBodyTag() {
 		setName("body");
-		setHttpName("pre");
 	}
 
 	@Override
@@ -40,7 +39,7 @@ public class RequestBodyTag extends MockServerTag {
 		String body = JsonWriter.formatJson((String) evaluator.getVariable(MOCK_REQUEST_BODY_VARIABLE));
 		element.moveChildrenTo(new Element("span"));
 		element.appendText(body);
-
+		super.verify(commandCall, evaluator, resultRecorder);
 	}
 
 }
