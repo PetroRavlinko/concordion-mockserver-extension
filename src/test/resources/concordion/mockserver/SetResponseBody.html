@@ -10,7 +10,7 @@
     Description
 </p>
 <div c:example="inline_mock_response_body">
-    <h3>Mock inline json response body</h3>
+    <h3>Inline mock json response body</h3>
     <ms:mock reset="true">
         <ms:request>
             <ms:post>/product</ms:post>
@@ -28,6 +28,33 @@
             &lt;/ms:request&gt;
             &lt;ms:response&gt;
                 &lt;ms:responseBody&gt;{"sku": "42", "count": "1", "price": "3.70"}&lt;/ms:responseBody&gt;
+            &lt;/ms:response&gt;
+        &lt;/ms:mock&gt;
+    </div>
+    <r:request>
+        When I send
+        <r:post>/product</r:post>
+        Then I should receive response <r:status>HTTP/1.1 200 OK</r:status> with body
+        <r:jsonResponse>{"sku": "42", "count": "1", "price": "3.70"}</r:jsonResponse>
+    </r:request>
+</div>
+<div c:example="mock_response_body_from_file">
+    <h3>Mock json response body from file</h3>
+    <ms:mock reset="true">
+        <ms:request>
+            <ms:post>/product</ms:post>
+        </ms:request>
+        <ms:response>
+            <ms:responseBody class="json" resource="concordion/mockserver/SetResponseBody/mock_response_body_from_file/response.json" />
+        </ms:response>
+    </ms:mock>
+    <div class="xml">
+        &lt;ms:mock reset="true"&gt;
+            &lt;ms:request&gt;
+                &lt;ms:post&gt;/product&lt;/ms:post&gt;
+            &lt;/ms:request&gt;
+            &lt;ms:response&gt;
+                &lt;ms:responseBody resource="response.json"/&gt;
             &lt;/ms:response&gt;
         &lt;/ms:mock&gt;
     </div>
