@@ -9,8 +9,8 @@
 <p>
     Description
 </p>
-<div c:example="mock_json_request_body">
-    <h3>Mock json request body</h3>
+<div c:example="inline_mock_json_request_body">
+    <h3>Inline mock json request body</h3>
     <ms:mock reset="true">
         <ms:request>
             <ms:post>/cart</ms:post>
@@ -24,9 +24,7 @@
         &lt;ms:mock&gt;
             &lt;ms:request&gt;
                 &lt;ms:post&gt;/cart&lt;/ms:post&gt;
-                &lt;ms:body&gt;{
-        "code": "42"
-        }&lt;/ms:body&gt;
+                &lt;ms:body&gt;{"code": "42"}&lt;/ms:body&gt;
             &lt;/ms:request&gt;
             &lt;ms:response&gt;
                 &lt;ms:statusCode class="code"&gt;201&lt;/ms:statusCode&gt;
@@ -38,6 +36,39 @@
         <r:post>/cart</r:post>
         <r:jsonBody>{
   "code": "42"
+}</r:jsonBody>
+        Then I should receive
+        <r:status>HTTP/1.1 201 Created</r:status>
+    </r:request>
+</div>
+<div c:example="mock_json_request_body_from_file">
+    <h3>Mock json request body from file</h3>
+    <ms:mock reset="true">
+        <ms:request>
+            <ms:post>/cart</ms:post>
+            <ms:body resource="concordion/mockserver/SetExpectedRequestBody/mock_json_request_body_from_file/request.json" class="json"/>
+        </ms:request>
+        <ms:response>
+            <ms:statusCode class="code">201</ms:statusCode>
+        </ms:response>
+    </ms:mock>
+    <div class="xml">
+        &lt;ms:mock&gt;
+            &lt;ms:request&gt;
+                &lt;ms:post&gt;/cart&lt;/ms:post&gt;
+                &lt;ms:body resource="path" /&gt;
+            &lt;/ms:request&gt;
+            &lt;ms:response&gt;
+                &lt;ms:statusCode class="code"&gt;201&lt;/ms:statusCode&gt;
+            &lt;/ms:response&gt;
+        &lt;/ms:mock&gt;
+    </div>
+    <r:request>
+        When I send
+        <r:post>/cart</r:post>
+        <r:jsonBody>{
+  "code": "42",
+  "items": {}
 }</r:jsonBody>
         Then I should receive
         <r:status>HTTP/1.1 201 Created</r:status>

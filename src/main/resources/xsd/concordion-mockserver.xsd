@@ -19,7 +19,15 @@
                                 </complexType>
                             </element>
                             <group ref="ms:httpMethods"/>
-                            <element type="string" name="body" minOccurs="0"/>
+                            <element type="string" name="body" minOccurs="0">
+                                <complexType>
+                                    <simpleContent>
+                                        <extension base="string">
+                                            <attribute name="resource" use="optional" type="string"/>
+                                        </extension>
+                                    </simpleContent>
+                                </complexType>
+                            </element>
                         </sequence>
                     </complexType>
                 </element>
@@ -31,7 +39,7 @@
                                 <complexType>
                                     <simpleContent>
                                         <extension base="string">
-                                            <attribute name="filePath" use="optional" type="string"/>
+                                            <attribute name="resource" use="optional" type="string"/>
                                         </extension>
                                     </simpleContent>
                                 </complexType>
