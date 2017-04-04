@@ -60,6 +60,11 @@ task copyXsd(type: Copy) {
     into 'docs/'
 }
 
+clean {
+    delete "${rootDir}/docs/"
+    println "delete ${rootDir}/docs/"
+}
+
 dependencies {
     compile 'org.springframework:spring-context:4.3.7.RELEASE'
     compile 'com.google.code.gson:gson:2.2.4'
