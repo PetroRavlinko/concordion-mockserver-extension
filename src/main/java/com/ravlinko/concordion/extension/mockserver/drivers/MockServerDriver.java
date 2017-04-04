@@ -1,4 +1,4 @@
-package com.ravlinko.concordion.extension.mockserver.executors;
+package com.ravlinko.concordion.extension.mockserver.drivers;
 
 
 import org.concordion.api.Evaluator;
@@ -6,23 +6,23 @@ import org.mockserver.client.server.MockServerClient;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 
-public class MockExecutor {
+public class MockServerDriver {
 	private static final String MOCK_EXECUTOR_VARIABLE = "#mock";
 
 	private MockServerClient mockServerClient;
 
-	private MockExecutor(final String host, final int port) {
+	private MockServerDriver(final String host, final int port) {
 		mockServerClient = new MockServerClient(host, port);
 	}
 
-	public static MockExecutor newExecutor(final Evaluator evaluator, final String host, final int port) {
-		MockExecutor initializer = new MockExecutor(host, port);
+	public static MockServerDriver newExecutor(final Evaluator evaluator, final String host, final int port) {
+		MockServerDriver initializer = new MockServerDriver(host, port);
 		evaluator.setVariable(MOCK_EXECUTOR_VARIABLE, initializer);
 		return initializer;
 	}
 
-	public static MockExecutor fromEvaluator(Evaluator evaluator) {
-		return (MockExecutor) evaluator.getVariable(MOCK_EXECUTOR_VARIABLE);
+	public static MockServerDriver fromEvaluator(Evaluator evaluator) {
+		return (MockServerDriver) evaluator.getVariable(MOCK_EXECUTOR_VARIABLE);
 	}
 
 	private HttpRequest httpRequest;
@@ -37,12 +37,12 @@ public class MockExecutor {
 				.respond(httpResponse);
 	}
 
-	public MockExecutor httpRequest(final HttpRequest httpRequest) {
+	public MockServerDriver httpRequest(final HttpRequest httpRequest) {
 		this.httpRequest = httpRequest;
 		return this;
 	}
 
-	public MockExecutor httpResponse(final HttpResponse httpResponse) {
+	public MockServerDriver httpResponse(final HttpResponse httpResponse) {
 		this.httpResponse = httpResponse;
 		return this;
 	}

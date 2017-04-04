@@ -1,6 +1,6 @@
 package com.ravlinko.concordion.extension.mockserver.tag;
 
-import com.ravlinko.concordion.extension.mockserver.executors.MockExecutor;
+import com.ravlinko.concordion.extension.mockserver.drivers.MockServerDriver;
 
 import org.concordion.api.CommandCall;
 import org.concordion.api.CommandCallList;
@@ -23,7 +23,7 @@ public class MockTag extends MockServerTag {
 
 	@Override
 	public void execute(final CommandCall commandCall, final Evaluator evaluator, final ResultRecorder resultRecorder) {
-		MockExecutor initializer = MockExecutor.newExecutor(evaluator, host, port);
+		MockServerDriver initializer = MockServerDriver.newExecutor(evaluator, host, port);
 
 		CommandCallList childCommands = commandCall.getChildren();
 		childCommands.setUp(evaluator, resultRecorder);

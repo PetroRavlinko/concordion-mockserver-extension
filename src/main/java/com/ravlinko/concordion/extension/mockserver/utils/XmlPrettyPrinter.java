@@ -3,8 +3,11 @@ package com.ravlinko.concordion.extension.mockserver.utils;
 import nu.xom.Builder;
 import nu.xom.Serializer;
 
+import org.springframework.stereotype.Component;
+
 import java.io.ByteArrayOutputStream;
 
+@Component
 public class XmlPrettyPrinter {
 	private static final int INDENT = 4;
 	private static final String LINE_SEPARATOR = "\n";

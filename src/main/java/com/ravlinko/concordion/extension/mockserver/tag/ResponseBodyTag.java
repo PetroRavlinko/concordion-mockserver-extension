@@ -9,6 +9,7 @@ import org.concordion.api.CommandCall;
 import org.concordion.api.Element;
 import org.concordion.api.Evaluator;
 import org.concordion.api.ResultRecorder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -21,6 +22,9 @@ import static org.mockserver.model.StringBody.exact;
 @Component
 public class ResponseBodyTag extends MockServerTag {
 	private static final String MOCK_RESPONSE_BODY_VARIABLE = "#responseBody";
+
+	@Autowired
+	private XmlPrettyPrinter xmlPrettyPrinter;
 
 	public ResponseBodyTag() {
 		setName("responseBody");
@@ -43,7 +47,7 @@ public class ResponseBodyTag extends MockServerTag {
 				for (Element e : element.getChildElements()) {
 					body = body.concat(e.toXML());
 				}
-				body = new XmlPrettyPrinter().prettyPrint(body);
+				body = xmlPrettyPrinter.prettyPrint(body);
 				evaluator.setVariable("#responseBodyFormat", "xml");
 			} else {
 				body = JsonWriter.formatJson(element.getText());
